@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="//cdn.componentator.com/spa.min@19.css">
+    <script src="//cdn.componentator.com/spa.min@19.js"></script>
+
+    <style>
+        html, body { margin: 0; padding: 0; background-color: #f0f0f0; }
+        .resumeform.panel { width: 800px; background-color: #ffffff; margin: 0 auto; padding-top: 20px; border-radius: var(--radius); box-shadow:0 0 80px rgba(0, 0, 0, 0.1); }
+        .resumeform.panel .header { text-align: center; }
+        .resumeform.panel .form { text-align: left; }
+        .fields { border: 1px solid #E0E0E0; border-radius: var(--radius); }
+        .headr  { height: 26px; border-top: 1px solid #E0E0E0; line-height: 25px; font-size: 13px; display: flex;}
+        .headr  .edit-open { background-color: #F0F0F0; }
+        .headr  .name { line-height: 14px; margin-right: 10px; width:150px; text-align: center;}
+        .headr  .name div { outline: 0; line-height: 23px; padding: 0 5px; min-height: 25px; font-weight: bold; }
+        .headr  .controls { padding: 0; margin: 0; text-align: center; }
+        .headr  .controls span { cursor: pointer; margin-left: 15px; }
+        .headr  .controls span:first-child { margin-left: 10; }
+        .headr:first-child { border-top: 0; line-height: 26px; }
+
+
+        figure  { height: 26px; border-top: 1px solid #E0E0E0; line-height: 25px; font-size: 13px; display: flex;}
+        figure  .edit-open { background-color: #F0F0F0; }
+        figure  .name { line-height: 14px; margin-right: 10px; width:180px; border-right: 1px solid #E0E0E0; text-align: center;}
+        figure  .name div { outline: 0; line-height: 23px; padding: 0 5px; min-height: 25px; font-weight: bold; }
+        figure  .controls { padding: 0; margin: 0; text-align: center; }
+        figure  .controls span { cursor: pointer; margin-left: 15px; }
+        figure  .controls span:first-child { margin-left: 10; }
+        figure:first-child { border-top: 0; line-height: 26px; }
+        figure:first-child div { line-height: 26px; }
+        figure.ismoved { background-color: rgba(92,29,196,0.3) !important; }
+        .CLASS footer { height: 40px; line-height: 40px; padding: 0 10px; font-size: 12px; }
+        .CLASS header div { border-radius: var(--radius); padding: 3px; background-color: #777; color: #FFF; }
+        .CLASS header div i { background-color: rgba(0,0,0,0.2); }
+    
+        .ui-dark  header div i { background-color: rgba(255,255,255,0.2); }
+        .ui-dark .fields { border-color: #404040; }
+        .ui-dark figure { border-top-color: #404040; }
+        .ui-dark figure .controls { border-left-color: #404040; }
+    </style>
+</head>
+<body>
+    <ui-component name="edit"></ui-component>
+    <ui-component name="viewbox" config="parent:window;centered:1">
+        <div class="resumeform panel">
+            <div class="header">
+                <h1 >Resume Builder</h1>
+                <span >Generate a resume with ChatGPT in few seconds</span>
+            </div>
+
+            <br>
+            <br>
+            <br>    
+
+            <div class="form">
+                <ui-plugin path="resumeform" class="padding npt">
+                    <div class="grid-3">
+                        <div></div>
+                        <div>
+                            <ui-component name="preview" path="photo" config="width:200; height:200;upload:/upload">Your picture</ui-component>
+                            <br>
+                            <br>
+                        </div>
+                        <div></div>
+                    </div>
+                    <ui-component name="autofill">
+                        <div class="grid-2">
+                            <ui-component name="input" path="firstname" config="required:1">Firstname</ui-component>
+                            <ui-component name="input" path="lastname" config="required:1">Lastname</ui-component>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="grid-3">    
+                           <ui-component name="input" path="currentposition" config="required:1">Current position</ui-component>
+                           <ui-component name="input" path="duration" config="required:1">How long (Year)</ui-component>
+                           <ui-component name="input" path="stack" config="required:1">Used Technology</ui-component>
+                        </div>
+                        <br>
+                        <br>
+                    </ui-component>
+
+                    <h3>Companies you worked at:</h3>
+                    <br>
+                    <div class="headr">
+                        <div class="name">
+                            <div class="monospace" data-type="from" data-edit="exec:resumeform.name;required:1">From Date/period</div>
+                        </div>
+                        <div class="name">
+                            <div class="monospace" data-type="from" data-edit="exec:resumeform.name;required:1">To Date/period</div>
+                        </div>
+                        <div class="name">
+                            <div class="monospace" data-type="from" data-edit="exec:resumeform.name;required:1">Company name</div>
+                        </div>
+
+                        <div class="name">
+                            <div class="monospace" data-type="from" data-edit="exec:resumeform.name;required:1">Mission</div>
+                        </div>
+                        <div class="controls">
+                            <span>Controls</span>
+                        </div>
+                    </div>
+                    <div data-bind="resumeform.companies__template:figure --> data-id__show:value && value.length" class="fields m">
+                        <script type="text/html">
+                            {{ foreach m in value }}
+                            <figure data-id="{{ m.id }}">
+                         
+                                <div class="name">
+                                    <div class="monospace edit hellip" data-type="from" data-edit="exec:resumeform.name;required:1">{{ m.datefrom }}</div>
+                                </div>
+                                <div class="name">
+                                    <div class="monospace edit hellip" data-type="from" data-edit="exec:resumeform.name;required:1">{{ m.dateto }}</div>
+                                </div>
+                                <div class="name">
+                                    <div class="monospace edit hellip" data-type="from" data-edit="exec:resumeform.name;required:1">{{ m.name }}</div>
+                                </div>
+
+                                <div class="name">
+                                    <div class="monospace edit hellip" data-type="from" data-edit="exec:resumeform.name;required:1">{{ m.mission }}</div>
+                                </div>
+                                <div class="controls">
+                                    <span class="exec" data-exec="resumeform.move" title="Up" data-type="up"><i class="fa fa-arrow-up"></i></span>
+                                    <span class="exec" data-exec="resumeform.move" title="Down" data-type="down"><i class="fa fa-arrow-down"></i></span>
+                                    <span class="exec" data-exec="resumeform.rem" title="Remove"><i class="far fa-trash-alt red"></i></span>
+                                </div>
+                            </figure>
+                            {{ end }}
+                        </script>
+                    </div>
+                </ui-plugin>
+            </div>
+        </div>
+    </ui-component>
+    <script>
+
+        var resumeform = {};
+        resumeform.companies = [];
+
+        PLUGIN('resumeform', function(exports) {
+
+            var obj = {};
+            obj.id = 'o' + Math.random().toString(36).substring(6);
+            obj.date = NOW.format('dd-MM-yyyy');
+            obj.name = 'Facebook';
+            obj.mission = 'Software developer';
+
+            exports.companies = [obj];
+
+            exports.refresh = function () {
+                var model = GET('resumeform');
+                
+                if (!model.companies.length) {
+                    var obj = {};
+                    obj.id = 'o' + Math.random().toString(36).substring(6);
+                    obj.date = NOW.format('dd-MM-yyyy');
+                    obj.name = 'Facebook';
+                    obj.mission = 'Software developer';
+                    PUSH('resumeform.companies', obj);
+                }
+                console.log('Ici', GET('resumeform'));
+            };
+
+            exports.name = function(opt, next) {
+                opt.value = opt.value.replace(/(;|\s|,)/g, '').trim();
+                var scope = opt.element.scope();
+                var id = ATTRD(opt.element);
+                var item = scope.get().companies.findItem('id', id);
+                item.name = opt.value.toLowerCase();
+                console.log('id', id);
+                console.log('item', item);
+                // scope.change('*');
+                next(true);
+            };
+
+            exports.move = function(el) {
+
+                var scope = el.scope();
+                var id = ATTRD(el);
+                var container = el.closest('figure');
+                var schema = scope.get().schema;
+                var index = schema.findIndex('id', id);
+                var is = false;
+                var isup = el.attrd('type') === 'up';
+
+                if (isup) {
+                    if (index > 0) {
+                        var a = schema[index];
+                        schema[index] = schema[index - 1];
+                        schema[index - 1] = a;
+                        is = true;
+                    }
+                } else {
+                    if (index <= schema.length - 2) {
+                        var a = schema[index];
+                        schema[index] = schema[index + 1];
+                        schema[index + 1] = a;
+                        is = true;
+                    }
+                }
+
+                if (is) {
+                    NODEMOVE(container, isup);
+                    scope.change('*');
+                    container.aclass('ismoved').rclass('ismoved', 500);
+                }
+            };
+
+
+            exports.refresh();
+        });
+    </script>
+</body>
+</html>
